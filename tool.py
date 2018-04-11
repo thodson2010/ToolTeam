@@ -89,6 +89,11 @@ with arcpy.da.UpdateCursor('lyr', ["Area"]) as cursor:
                 #print row
                 #print "CURSOR 2 ITEM: " + str(enum2)
                 
+                if cursor2[1] in options:
+                    options.remove(options.index(cursor2[1]))
+                if not options.contains(row[1])
+                    row[1] = options[0]
+                
                 currentFeatureID2 = row[0]
                 if not(currentFeatureID2==currentFeatureID):
                     newList.append(currentFeatureID2)
