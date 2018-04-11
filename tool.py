@@ -11,8 +11,8 @@ env.overwriteoutput = True
 arcpy.env.workspace = "C:/Users/G5223/Documents/ArcGIS/Test.gdb"
 
 # The following line is for code testing ONLY and will be overwritten automatically upon running the sript.
-shapefileInput = "C:/Users/G5223/Documents/ArcGIS/Test.gdb/trt_00"
-shapefileOutput = "C:/Users/G5223/Documents/ArcGIS/Output2.shp"
+shapefileInput = "C:/Users/G5223/Documents/ArcGIS/Test.gdb/trt_00" #must be in geodatabase
+shapefileOutput = "C:/Users/G5223/Documents/ArcGIS/Output2.shp" #must NOT be in geodatabase
 
 # The following line MUST be uncommented before use in ArcToolbox.
 #shapefileInput = arcpy.GetParameterAsText(0)
@@ -21,7 +21,7 @@ shapefileOutput = "C:/Users/G5223/Documents/ArcGIS/Output2.shp"
 # Below, a temporary shapefile, containing the contents of the inputted shapefile, is created in the scratch geodatabase.
 numberOfColors = 5;
 #shapefile = arcpy.env.scratchGDB + os.path.sep + "temporary2.shp"
-shapefile = "C:/Users/G5223/Documents/ArcGIS/temp9.shp"
+shapefile = "C:/Users/G5223/Documents/ArcGIS/temp9.shp" #must NOT be in geodatabase
 try:
     arcpy.Delete_management(shapefile)
 except:
