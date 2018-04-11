@@ -76,6 +76,7 @@ with arcpy.da.UpdateCursor('lyr', ["Area"]) as cursor:
         if enum1 == 3:
             break
         print row
+        options = [1, 2, 3, 4, 5, 6, 7]
         print "CURSOR 1 ITEM: " + str(enum1)
         currentFeatureID = row[0]
         #select feature with currentFeatureID
