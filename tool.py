@@ -8,11 +8,11 @@ import random
 import numpy  
 env.overwriteoutput = True
 
-arcpy.env.workspace = "C:/Users/Sam/proj/class-project-ww.gdb"
+arcpy.env.workspace = "C:/Users/G5223/Documents/ArcGIS/Test.gdb"
 
 # The following line is for code testing ONLY and will be overwritten automatically upon running the sript.
-shapefileInput = "C:/Users/Sam/proj/trt00_shp.shp"
-shapefileOutput = "C:/Users/Sam/proj/Output1.shp"
+shapefileInput = "C:/Users/G5223/Documents/ArcGIS/Test.gdb/trt_00"
+shapefileOutput = "C:/Users/G5223/Documents/ArcGIS/Output2.shp"
 
 # The following line MUST be uncommented before use in ArcToolbox.
 #shapefileInput = arcpy.GetParameterAsText(0)
@@ -21,7 +21,7 @@ shapefileOutput = "C:/Users/Sam/proj/Output1.shp"
 # Below, a temporary shapefile, containing the contents of the inputted shapefile, is created in the scratch geodatabase.
 numberOfColors = 5;
 #shapefile = arcpy.env.scratchGDB + os.path.sep + "temporary2.shp"
-shapefile = "E:/Spring 2018/G5223/labs/libraries-data/temp9.shp"
+shapefile = "C:/Users/G5223/Documents/ArcGIS/temp9.shp"
 try:
     arcpy.Delete_management(shapefile)
 except:
@@ -89,11 +89,12 @@ with arcpy.da.UpdateCursor('lyr', ["Area"]) as cursor:
             for row in cursor2:
                 #print row
                 #print "CURSOR 2 ITEM: " + str(enum2)
-                
+
                 if cursor2[1] in options:
-                    options.remove(options.index(cursor2[1]))
-                if not options.contains(row[1])
+                    options.remove(cursor2[1])
+                if cursor2[1] not in options and len(options) > 0:
                     row[1] = options[0]
+                cursor2.updateRow(row)
                 
                 currentFeatureID2 = row[0]
                 if not(currentFeatureID2==currentFeatureID):
@@ -108,7 +109,7 @@ counter = 0
 countOfFeatures = (int)(str(countOfFeatures))
 
 while counter<countOfFeatures:
-    print counter
+    #print counter
     counter += 1
     if counter > countOfFeatures:
         break
@@ -121,11 +122,11 @@ print "MADE IT PAST COUNTER"
 with arcpy.da.UpdateCursor(shapefile, ["xyIdent", "ColorGroup", "neighbors"], sql_clause=(None,"ORDER BY rand")) as cursor:
     for row in cursor:
         currentFeatureID = row[0]
-        SelectLayerByLocation_management (shapefile, "BOUNDARY_TOUCHES", shapefile, "", "NEW_SELECTION", "NOT_INVERT")
+        #SelectLayerByLocation_management (shapefile, "BOUNDARY_TOUCHES", shapefile, "", "NEW_SELECTION", "NOT_INVERT")
         
 ##        idValue=
 ##        row[2] =
-        cursor.updateRow(row)
+        #cursor.updateRow(row)
 
 
 
