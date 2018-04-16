@@ -13,7 +13,7 @@ arcpy.env.workspace = "C:/Users/G5223/Documents/ArcGIS/Test.gdb"
 
 # The following line is for code testing ONLY and will be overwritten automatically upon running the sript.
 shapefileInput = "C:/Users/G5223/Documents/ArcGIS/Test.gdb/states"
-shapefileOutput = "C:/Users/G5223/Documents/ArcGIS/Output15.shp"
+shapefileOutput = "C:/Users/G5223/Documents/ArcGIS/Output.shp"
 arcpy.MakeFeatureLayer_management('states', 'lyr')
 
 # The following line MUST be uncommented before use in ArcToolbox.
@@ -29,20 +29,20 @@ arcpy.CopyFeatures_management(shapefileInput, shapefile)
 
 # Below, a text field is added to the temporary shapefile, which will hold the unqiue identifying code for each color group.
 newField1 = arcpy.ValidateFieldName("ColorGroup", 'lyr')
-arcpy.AddField_management ('lyr', newField1, "TEXT")
+arcpy.AddField_management (shapefile, newField1, "TEXT")
 
 # Below, a text field is added to the temporary shapefile, which will hold a list of the color codes of the polygons that each polygon borders.
 
 newField2 = arcpy.ValidateFieldName("neighbors", shapefile)
-arcpy.AddField_management ('lyr', newField2, "TEXT")
+arcpy.AddField_management (shapefile, newField2, "TEXT")
 
 # Below, a text field (xyIdent) is added to the temporary shapefile, which will hold the unqiue identifying code for each individual polygon feature in the shapefile.
 arcpy.AddGeometryAttributes_management (shapefile, "CENTROID_INSIDE", "", "", "")
 newField3 = arcpy.ValidateFieldName("xyIdent", 'lyr')
 arcpy.AddField_management ('lyr', newField3, "TEXT")
 #arcpy.CalculateField_management ('lyr', "xyIdent", "str(!INSIDE_X!) + str( !INSIDE_Y!)", "PYTHON")
-arcpy.DeleteField_management ('lyr', "INSIDE_X")
-arcpy.DeleteField_management ('lyr', "INSIDE_Y")
+arcpy.DeleteField_management (shapefile, "INSIDE_X")
+arcpy.DeleteField_management (shapefile, "INSIDE_Y")
 
 
 
