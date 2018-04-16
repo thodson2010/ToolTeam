@@ -23,7 +23,7 @@ arcpy.MakeFeatureLayer_management('states', 'lyr')
 # Below, a temporary shapefile, containing the contents of the inputted shapefile, is created in the scratch geodatabase.
 numberOfColors = 5;
 #shapefile = arcpy.env.scratchGDB + os.path.sep + "temporary2.shp"
-shapefile = "C:/Users/G5223/Documents/ArcGIS/temp20.shp" #KEEP CHANGING THIS VALUE AS NECESSARY****************************************************
+shapefile = "C:/Users/G5223/Documents/ArcGIS/temp1.shp" #KEEP CHANGING THIS VALUE AS NECESSARY****************************************************
 
 arcpy.CopyFeatures_management(shapefileInput, shapefile)
 
@@ -39,7 +39,7 @@ arcpy.AddField_management (shapefile, newField2, "TEXT")
 # Below, a text field (xyIdent) is added to the temporary shapefile, which will hold the unqiue identifying code for each individual polygon feature in the shapefile.
 arcpy.AddGeometryAttributes_management (shapefile, "CENTROID_INSIDE", "", "", "")
 newField3 = arcpy.ValidateFieldName("xyIdent", 'lyr')
-arcpy.AddField_management ('lyr', newField3, "TEXT")
+arcpy.AddField_management (shapefile, newField3, "TEXT")
 #arcpy.CalculateField_management ('lyr', "xyIdent", "str(!INSIDE_X!) + str( !INSIDE_Y!)", "PYTHON")
 arcpy.DeleteField_management (shapefile, "INSIDE_X")
 arcpy.DeleteField_management (shapefile, "INSIDE_Y")
@@ -52,7 +52,7 @@ arcpy.DeleteField_management (shapefile, "INSIDE_Y")
 numberOfColors = 7
 currentColor = 1
 countOfFeatures = arcpy.GetCount_management(shapefile)
-with arcpy.da.UpdateCursor('lyr', "ColorGroup") as cursor:
+with arcpy.da.UpdateCursor(shapefile, ["ColorGroup"]) as cursor:
     #initializing the color for each feature; will likely be overriden later
     #throwiong spagheti at the wall
     for row in cursor:
@@ -67,39 +67,6 @@ with arcpy.da.UpdateCursor('lyr', "ColorGroup") as cursor:
 enum1 = 0
 
 listOfLists = []
-##with arcpy.da.UpdateCursor('lyr', ["Area"]) as cursor:
-##    print "ENTER 1ST UPDATE CURSOR"
-##    for row in cursor:
-##        if enum1 == 3:
-##            break
-##        print row
-##        print "CURSOR 1 ITEM: " + str(enum1)
-##        currentFeatureID = row[0]
-##        #select feature with currentFeatureID
-##        arcpy.SelectLayerByLocation_management('lyr', "BOUNDARY_TOUCHES", shapefile, "", "NEW_SELECTION", "NOT_INVERT") #select all features that touch the selection
-##        newList = []
-##        newList.append(currentFeatureID)
-##        enum2 = 0
-##        with arcpy.da.UpdateCursor(shapefile, ["xyIdent", "ColorGroup", "neighbors"]) as cursor2:
-##            options = [1, 2, 3, 4, 5, 6, 7]
-##            #print "ENTER 2ND UPDATE CURSOR"
-##            for row2 in cursor2:
-##                #print row
-##                #print "CURSOR 2 ITEM: " + str(enum2)
-##
-##                if row2[1] in options:
-##                    options.remove(row2[1])
-##                if len(options) > 0:
-##                    if row[1] not in options:
-##                        row[1] = options[0]
-##                cursor2.updateRow(row)
-##                
-##                currentFeatureID2 = row[0]
-##                if not(currentFeatureID2==currentFeatureID):
-##                    newList.append(currentFeatureID2)
-##                enum2 += 1
-##        listOfLists.append(newList)
-##        enum1 += 1
 
 print "MADE IT PAST UPDATE CURSOR"
 changes = 1
@@ -108,11 +75,11 @@ print "test1"
 while (changes > 0):
     changes = 0
     print "test2"
-    with arcpy.da.UpdateCursor('lyr', ["xyIdent", "ColorGroup"]) as cursor:
+    with arcpy.da.UpdateCursor(shapefile, ["xyIdent", "ColorGroup"]) as cursor:
         for row in cursor:
             print "test3"
             arcpy.SelectLayerByLocation_management('lyr', "BOUNDARY_TOUCHES", shapefile, "", "NEW_SELECTION", "NOT_INVERT") #select all features that touch the selection
-            with arcpy.da.UpdateCursor('lyr', ["xyIdent", "ColorGroup"]) as cursor2:
+            with arcpy.da.UpdateCursor(shapefile, ["xyIdent", "ColorGroup"]) as cursor2:
                 options = ["1", "2", "3", "4", "5", "6", "7"]
                 for row2 in cursor2:
                     print options
